@@ -1,1 +1,3 @@
-
+le blackjack est un jeu de cartes possèdant chacune une valeur:
+ - du 2 2 au 9 : chaque carte a sa propre valeur nominale
+ - les As équivalent à 1 ou à 11 selon le jeu du joueur Si votre main ne dépasse pas 21, l’as compte 11. Si au contraire elle le dépasse, l’As compte pour 1; la valeur de l’As étant toujours calculée à l'avantage du joueur
