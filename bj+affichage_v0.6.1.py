@@ -76,10 +76,12 @@ def newframe (size, police_frame, police_cards, state_of_game, main_joueur, main
     frame =''
     frame += pol1[0] + pol1[2]*(Width-2) + pol1[1] + '\n'
 
-    if state_of_game==0:
+    if state_of_game==0: #si la partie continue
         height_emptiness = Height-2 - cardsHeight*2
-        croupier_width_emptiness = (Width-2 - cardsWidth*len(main_croupier))//2
-        joueur_width_emptiness = (Width-2 - cardsWidth*len(main_joueur))//2
+        croupier_card_space = cardsWidth*len(main_croupier)
+        joueur_card_space = cardsWidth*len(main_joueur)
+        croupier_width_emptiness = (Width-2 - croupier_card_space)//2
+        joueur_width_emptiness = (Width-2 - joueur_card_space)//2
 
         frame =''
         frame += pol1[0] + pol1[2]*(Width-2) + pol1[1] + '\n'
@@ -98,15 +100,15 @@ def newframe (size, police_frame, police_cards, state_of_game, main_joueur, main
         for i in range(cardsHeight):
             frame += pol1[5] + ' ' * joueur_width_emptiness + pol_c[5]  + ' ' * cardsWidth + pol_c[5]  + ' ' * joueur_width_emptiness + pol1[5] + '\n'
 
-    elif state_of_game==1:
+    elif state_of_game==1: #si le joueur à gagné
         for _ in range(Height-2):
             frame += pol1[5] + ' ' * (Width-2) + pol1[5] + '\n'
 
-    elif state_of_game==2:
+    elif state_of_game==2: #si le croupier à gagné
         for _ in range(Height-2):
             frame += pol1[5] + ' ' * (Width-2) + pol1[5] + '\n'
 
-    elif state_of_game==3:
+    elif state_of_game==3: #si il n'y a pas de gagnant
         for _ in range(Height-2):
             frame += pol1[5] + ' ' * (Width-2) + pol1[5] + '\n'
 
