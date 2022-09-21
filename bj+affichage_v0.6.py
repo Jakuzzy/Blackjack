@@ -65,20 +65,21 @@ def newframe (size, police_frame, police_cards, state_of_game, main_joueur, main
     #base values
     Width = 100
     Height = 100
+
+    if size == '100:25':
+        Width = 100
+        Height = 25
+        cardsWidth = 10
+        cardsHeight = 5
+
+
     frame =''
     frame += pol1[0] + pol1[2]*(Width-2) + pol1[1] + '\n'
 
-    if size == '200:100':
-        Width = 200
-        Height = 100
-
     if state_of_game==0:
-        cardsWidth = Width//5
-        cardsHeight = Height//5
-
         height_emptiness = Height-2 - cardsHeight*2
-        croupier_width_emptiness = Width-2 - cardsWidth*len(main_croupier)
-        joueur_width_emptiness = Height-2 - cardsWidth*len(main_joueur)
+        croupier_width_emptiness = (Width-2 - cardsWidth*len(main_croupier))//2
+        joueur_width_emptiness = (Width-2 - cardsWidth*len(main_joueur))//2
 
         frame =''
         frame += pol1[0] + pol1[2]*(Width-2) + pol1[1] + '\n'
@@ -114,6 +115,9 @@ def newframe (size, police_frame, police_cards, state_of_game, main_joueur, main
     return frame
 
 def blackjack():
+
+    size='100:25'
+
     """
     Lance une partie de Blackjack.
     """
@@ -123,9 +127,9 @@ def blackjack():
         total_joueur,total_croupier, = total(main_joueur),total(main_croupier) #fait les totaux des mains du joueur et du croupier
         if total_joueur == 21:
 
-            print(newframe('200:100',1,1,2,main_joueur,main_croupier,total_joueur,total_croupier)) #affiche la victoire en ayant 21 points dès le premier tirage
+            print(newframe(size,1,1,2,main_joueur,main_croupier,total_joueur,total_croupier)) #affiche la victoire en ayant 21 points dès le premier tirage
         else:
-            print(newframe('200:100',1,1,0,main_joueur,main_croupier,total_joueur,total_croupier)) #affiche les mains et le total de la main du joueur en cachant la 2eme carte du croupier
+            print(newframe(size,1,1,0,main_joueur,main_croupier,total_joueur,total_croupier)) #affiche les mains et le total de la main du joueur en cachant la 2eme carte du croupier
 
             suite = input("Voulez-vous des cartes supplémentaires ? [Y/N] ")
             if suite.lower() == 'y':
@@ -136,17 +140,17 @@ def blackjack():
                 main_croupier += tirage(1)
                 total_croupier = total(main_croupier)
 
-            print(newframe('200:100',1,1,0,main_joueur,main_croupier,total_joueur,total_croupier)) #affiche les mains et les totaux du croupier et du joueur
+            print(newframe(size,1,1,0,main_joueur,main_croupier,total_joueur,total_croupier)) #affiche les mains et les totaux du croupier et du joueur
 
             if total_joueur <= 21 and (total_joueur > total_croupier or total_croupier > 21): #conditions pour gagner
 
-                print(newframe('200:100',1,1,1,main_joueur,main_croupier,total_joueur,total_croupier))
+                print(newframe(size,1,1,1,main_joueur,main_croupier,total_joueur,total_croupier))
 
             elif total_croupier == total_joueur or (total_croupier > 21 and total_joueur > 21): #conditions si il n'y a pas de gagnant
 
-                print(newframe('200:100',1,1,3,main_joueur,main_croupier,total_joueur,total_croupier))
+                print(newframe(size,1,1,3,main_joueur,main_croupier,total_joueur,total_croupier))
 
             else: #sinon défaite
 
-                print(newframe('200:100',1,1,2,main_joueur,main_croupier,total_joueur,total_croupier))
+                print(newframe(size,1,1,2,main_joueur,main_croupier,total_joueur,total_croupier))
     return None
