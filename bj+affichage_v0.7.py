@@ -5,9 +5,9 @@ liste_valeurs = ['1','2','3','4','5','6','7','8','9','10','V','D','R']
 liste_signes = ['♥','♦','♣','♠']
 
 #polices utilisées pour l'affichage
-pol_c1 = ('┌','┐','─','└','┘','│','┬','┴','├','┤','┼')
-pol1 = ('╔','╗','═','╚','╝','║','╦','╩','╠','╣','╬')
-pol2 = ('/',"'\'",'~',"'\'",'/','!','~','~','}','{','+')
+pol1 = ('┌','┐','─','└','┘','│','┬','┴','├','┤','┼')
+pol2 = ('╔','╗','═','╚','╝','║','╦','╩','╠','╣','╬')
+pol3 = ('/',"'\'",'~',"'\'",'/','!','~','~','}','{','+')
 
 """
 carte = une liste sous la forme [(valeur,signe),point]
@@ -46,21 +46,12 @@ def total(main):
                 break
     return total
 
-def newframe (size, police_frame, police_cards, state_of_game, main_joueur, main_croupier, total_joueur, total_croupier):
+def newframe (size, state_of_game, main_joueur, main_croupier, total_joueur, total_croupier):
     """
     affiche l'image du jeu
     """
-    if police_frame == 1:
-        pol_f = pol1
-    elif police == 2:
-        pol_f = pol2
-    else:
-        print('error_police')
-
-    if police_cards == 1:
-        pol_c = pol_c1
-    else:
-        print('error_police')
+    pol_f = pol3
+    pol_c = pol2
 
     #base values
     Width = 100
@@ -74,7 +65,7 @@ def newframe (size, police_frame, police_cards, state_of_game, main_joueur, main
 
 
     frame =''
-    frame += pol1[0] + pol1[2]*(Width-2) + pol1[1] + '\n'
+    frame += pol_f[0] + pol_f[2]*(Width-2) + pol_f[1] + '\n'
 
     if state_of_game==0: #si la partie continue
         height_emptiness = Height-2 - cardsHeight*2
@@ -84,35 +75,48 @@ def newframe (size, police_frame, police_cards, state_of_game, main_joueur, main
         joueur_width_emptiness = (Width-2 - joueur_card_space)//2
 
         frame =''
-        frame += pol1[0] + pol1[2]*(Width-2) + pol1[1] + '\n'
+        frame += pol_f[0] + pol_f[2]*(Width-2) + pol_f[1] + '\n'
 
         #Carte(s) du croupier
-        for i in range(cardsHeight):
-            frame += pol1[5] + ' ' * croupier_width_emptiness + pol_c[5]  + ' ' * cardsWidth + pol_c[5]  + ' ' * croupier_width_emptiness + pol1[5] + '\n'
-        frame += pol1[5] + ' ' * croupier_width_emptiness + pol_c[3]  + pol_c[2] * cardsWidth + pol_c[4]  + ' ' * croupier_width_emptiness + pol1[5] + '\n'
+
+
+        for o in range(cardsHeight):
+            frame += pol_f[5] + ' ' * croupier_width_emptiness
+            for p in range(len(main_croupier)):
+                if o == (0 or cardsHeight):
+                    print('o == 0')
+                    frame += pol_c[5] + ' ' * (cardsWidth-2) + str(main_croupier[p][0][0]) + ' ' + pol_c[5]
+                elif o == (1 or cardsHeight-2):
+                    print('o == 1 or == -2')
+                    frame += pol_c[5] + ' ' * (cardsWidth-2) + main_croupier[p][0][1] + ' ' + pol_c[5]
+                else:
+                    frame += pol_c[5]  + ' ' * cardsWidth + pol_c[5]
+            frame += ' ' * croupier_width_emptiness + pol_f[5] + '\n'
+
+##        frame += pol_f[5] + ' ' * croupier_width_emptiness + pol_c[3]  + pol_c[2] * cardsWidth + pol_c[4]  + ' ' * croupier_width_emptiness + pol_f[5] + '\n'
 
         #Espace entre les mains
-        for i in range(height_emptiness):
-            frame += pol1[5] + ' ' * (Width-2) + pol1[5] + '\n'
+        for _ in range(height_emptiness):
+            frame += pol_f[5] + ' ' * (Width-2) + pol_f[5] + '\n'
 
         #Carte(s) du joueur
-        frame += pol1[5] + ' ' * joueur_width_emptiness + pol_c[0]  + pol_c[2] * cardsWidth + pol_c[1]  + ' ' * joueur_width_emptiness + pol1[5] + '\n'
+        frame += pol_f[5] + ' ' * joueur_width_emptiness + pol_c[0]  + pol_c[2] * cardsWidth + pol_c[1]  + ' ' * joueur_width_emptiness + pol_f[5] + '\n'
         for i in range(cardsHeight):
-            frame += pol1[5] + ' ' * joueur_width_emptiness + pol_c[5]  + ' ' * cardsWidth + pol_c[5]  + ' ' * joueur_width_emptiness + pol1[5] + '\n'
+            frame += pol_f[5] + ' ' * joueur_width_emptiness + pol_c[5]  + ' ' * cardsWidth + pol_c[5]  + ' ' * joueur_width_emptiness + pol_f[5] + '\n'
 
     elif state_of_game==1: #si le joueur à gagné
         for _ in range(Height-2):
-            frame += pol1[5] + ' ' * (Width-2) + pol1[5] + '\n'
+            frame += pol_f[5] + ' ' * (Width-2) + pol_f[5] + '\n'
 
     elif state_of_game==2: #si le croupier à gagné
         for _ in range(Height-2):
-            frame += pol1[5] + ' ' * (Width-2) + pol1[5] + '\n'
+            frame += pol_f[5] + ' ' * (Width-2) + pol_f[5] + '\n'
 
     elif state_of_game==3: #si il n'y a pas de gagnant
         for _ in range(Height-2):
-            frame += pol1[5] + ' ' * (Width-2) + pol1[5] + '\n'
+            frame += pol_f[5] + ' ' * (Width-2) + pol_f[5] + '\n'
 
-    frame += pol1[3] + pol1[2] * (Width-2) + pol1[4]
+    frame += pol_f[3] + pol_f[2] * (Width-2) + pol_f[4]
 
     return frame
 
@@ -129,9 +133,9 @@ def blackjack():
         total_joueur,total_croupier, = total(main_joueur),total(main_croupier) #fait les totaux des mains du joueur et du croupier
         if total_joueur == 21:
 
-            print(newframe(size,1,1,2,main_joueur,main_croupier,total_joueur,total_croupier)) #affiche la victoire en ayant 21 points dès le premier tirage
+            print(newframe(size,2,main_joueur,main_croupier,total_joueur,total_croupier)) #affiche la victoire en ayant 21 points dès le premier tirage
         else:
-            print(newframe(size,1,1,0,main_joueur,main_croupier,total_joueur,total_croupier)) #affiche les mains et le total de la main du joueur en cachant la 2eme carte du croupier
+            print(newframe(size,0,main_joueur,main_croupier,total_joueur,total_croupier)) #affiche les mains et le total de la main du joueur en cachant la 2eme carte du croupier
 
             suite = input("Voulez-vous des cartes supplémentaires ? [Y/N] ")
             if suite.lower() == 'y':
@@ -142,17 +146,17 @@ def blackjack():
                 main_croupier += tirage(1)
                 total_croupier = total(main_croupier)
 
-            print(newframe(size,1,1,0,main_joueur,main_croupier,total_joueur,total_croupier)) #affiche les mains et les totaux du croupier et du joueur
+            print(newframe(size,0,main_joueur,main_croupier,total_joueur,total_croupier)) #affiche les mains et les totaux du croupier et du joueur
 
             if total_joueur <= 21 and (total_joueur > total_croupier or total_croupier > 21): #conditions pour gagner
 
-                print(newframe(size,1,1,1,main_joueur,main_croupier,total_joueur,total_croupier))
+                print(newframe(size,1,main_joueur,main_croupier,total_joueur,total_croupier))
 
             elif total_croupier == total_joueur or (total_croupier > 21 and total_joueur > 21): #conditions si il n'y a pas de gagnant
 
-                print(newframe(size,1,1,3,main_joueur,main_croupier,total_joueur,total_croupier))
+                print(newframe(size,3,main_joueur,main_croupier,total_joueur,total_croupier))
 
             else: #sinon défaite
 
-                print(newframe(size,1,1,2,main_joueur,main_croupier,total_joueur,total_croupier))
+                print(newframe(size,2,main_joueur,main_croupier,total_joueur,total_croupier))
     return None
