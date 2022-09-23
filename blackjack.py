@@ -1,7 +1,12 @@
 import random as rd
 
+"""
+Règles du Blackjack :
+    ...
+"""
+
 #listes utilisées pour faire les tirages de cartes
-liste_valeurs = ['1','2','3','4','5','6','7','8','9','10','V','D','R']
+liste_valeurs = ['A','2','3','4','5','6','7','8','9','10','V','D','R']
 liste_signes = ['♥','♦','♣','♠']
 
 """
@@ -16,9 +21,9 @@ def tirage(nb=2):
     main = []
     for _ in range(nb):
         valeur = rd.choice(liste_valeurs) #donne une valeur aléatoire
-        if valeur == '1': #associe un nombre de point en fonction de la valeur de la carte
+        if valeur == 'A': #associe un nombre de point en fonction de la valeur de la carte
             point = 11
-        elif valeur in '2,3,4,5,6,7,8,9':
+        elif valeur in '23456789':
             point = int(valeur)
         else:
             point = 10
@@ -34,7 +39,7 @@ def total(main):
         total += carte[1]
     if total > 21:
         for carte in main:
-            if carte[0][0]=='1' and total > 21: #si le total est supérieur à 21 et que la carte est un as, remplace la valeur de l'as par 1 et actualise la valeur du total
+            if carte[0][0]=='A' and total > 21: #si le total est supérieur à 21 et que la carte est un as, remplace la valeur de l'as par 1 et actualise la valeur du total
                 carte[1] = 1
                 total -= 10
             elif total <= 21: #et si le total est inférieur ou égal à 21 la boucle se termine
@@ -49,7 +54,8 @@ def blackjack():
     if jouer.lower() == 'y':
         main_joueur,main_croupier = tirage(),tirage() #fait 2 tirage de 2 cartes, pour le joueur et le croupier
         total_joueur,total_croupier, = total(main_joueur),total(main_croupier) #fait les totaux des mains du joueur et du croupier
-        print("Le jeu du croupier :",[main_croupier[0],'Carte cachée'],"\nVotre jeu :",main_joueur,total_joueur) #affiche les mains et le total de la main du joueur en cachant la 2eme carte du croupier
+        print("1er tour :") #affiche les mains en cachant la 2eme carte du croupier et le total de la main du joueur pour le 1er tour
+        print("Le jeu du croupier :",[main_croupier[0],'Carte cachée'],"\nVotre jeu :",main_joueur,"\n Total de vos cartes :",total_joueur)
         if total_joueur == 21:
             print("Vous gagnez en obtenant un Blackjack !") #victoire en ayant 21 points dès le premier tirage
         else:
@@ -61,11 +67,12 @@ def blackjack():
             while total_croupier < 17: #rajoute des cartes à la main du croupier jusqu'à ce que le total dépasse ou égalise 17
                 main_croupier += tirage(1)
                 total_croupier = total(main_croupier)
-            print("Le jeu du croupier :",main_croupier,total_croupier,"\nVotre jeu :",main_joueur,total_joueur) #affiche les mains et les totaux du croupier et du joueur
+            print("\n2eme tour :") #affiche les mains et les totaux du croupier et du joueur pour la fin du jeu
+            print("Le jeu du croupier :",main_croupier,"\n Total des cartes du croupier :",total_croupier,"\nVotre jeu :",main_joueur,"\n Total de vos cartes :",total_joueur)
             if total_joueur <= 21 and (total_joueur > total_croupier or total_croupier > 21): #conditions pour gagner
-                print("Vous avez gagné !")
+                print("\nVous avez gagné !")
             elif total_croupier == total_joueur or (total_croupier > 21 and total_joueur > 21): #conditions si il n'y a pas de gagnant
-                print("Il n'y a aucun gagnant.")
+                print("\nIl n'y a aucun gagnant.")
             else: #sinon défaite
-                print("Vous avez perdu.")
+                print("\nVous avez perdu.")
     return None
