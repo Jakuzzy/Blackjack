@@ -133,7 +133,7 @@ def affichage(main,cache=False):
 
 
 
-def blackjack_visuel():
+def blackjack():
     """
     Lance une partie de Blackjack avec le visuel des cartes dans la console (agrandir la taille de la console au préalable).
     """
